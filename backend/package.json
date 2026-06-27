@@ -1,0 +1,27 @@
+{
+  "name": "hotel-management-backend",
+  "version": "1.0.0",
+  "description": "Production-ready backend for luxury 5-star hotel & restaurant web application",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.16",
+    "pg": "^8.13.1",
+    "razorpay": "^2.9.5",
+    "uuid": "^11.0.5"
+  },
+  "keywords": ["hotel", "restaurant", "management", "backend", "express"],
+  "license": "ISC"
+}

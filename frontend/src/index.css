@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+@theme {
+  --color-gold-50: #FFF9E6;
+  --color-gold-100: #FFF0B3;
+  --color-gold-200: #FFE680;
+  --color-gold-300: #FFDB4D;
+  --color-gold-400: #FFD11A;
+  --color-gold-500: #D4A017;
+  --color-gold-600: #B8860B;
+  --color-gold-700: #8B6914;
+  --color-gold-800: #5C4A1C;
+  --color-gold-900: #2E2A12;
+
+  --color-obsidian-50: #F5F5F6;
+  --color-obsidian-100: #E0E0E2;
+  --color-obsidian-200: #C1C1C5;
+  --color-obsidian-300: #A2A2A8;
+  --color-obsidian-400: #83838B;
+  --color-obsidian-500: #64646E;
+  --color-obsidian-600: #4A4A52;
+  --color-obsidian-700: #313136;
+  --color-obsidian-800: #1A1A1F;
+  --color-obsidian-900: #0D0D11;
+  --color-obsidian-950: #050507;
+
+  --color-champagne-50: #FFFDF7;
+  --color-champagne-100: #FFF9E8;
+  --color-champagne-200: #FFF3D1;
+  --color-champagne-300: #FFECBA;
+  --color-champagne-400: #FFE6A3;
+  --color-champagne-500: #F7D794;
+
+  --color-platinum-50: #FAFAFA;
+  --color-platinum-100: #F5F5F5;
+  --color-platinum-200: #EBEBEB;
+  --color-platinum-300: #D6D6D6;
+
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'Inter', sans-serif;
+  --font-accent: 'Cormorant Garamond', serif;
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-shimmer: shimmer 2s linear infinite;
+  --animate-glow: glow 2s ease-in-out infinite alternate;
+  --animate-slide-up: slideUp 0.5s ease-out;
+  --animate-fade-in: fadeIn 0.5s ease-out;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  @keyframes glow {
+    0% { box-shadow: 0 0 20px rgba(212,160,23,0.3); }
+    100% { box-shadow: 0 0 40px rgba(212,160,23,0.6); }
+  }
+  @keyframes slideUp {
+    0% { transform: translateY(20px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+}
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background-color: var(--color-obsidian-950);
+    color: var(--color-platinum-100);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: var(--color-gold-500);
+    color: var(--color-obsidian-950);
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-obsidian-900);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-gold-600);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-gold-500);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
+}
