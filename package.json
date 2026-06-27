@@ -4,6 +4,6 @@
   "private": true,
   "scripts": {
     "build": "npm run build --prefix frontend",
-    "install": "npm install --prefix frontend"
+    "install": "npm install --prefix frontend --legacy-peer-deps"
   }
 }
