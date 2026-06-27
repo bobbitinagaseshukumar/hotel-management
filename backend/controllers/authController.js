@@ -14,7 +14,8 @@ const generateOTP = () => {
  * Generate JWT access token
  */
 const generateAccessToken = (userId, role) => {
-  return jwt.sign({ userId, role }, process.env.JWT_SECRET, {
+  const secret = process.env.JWT_SECRET || 'super_secret_jwt_key_at_least_32_characters_long_default';
+  return jwt.sign({ userId, role }, secret, {
     expiresIn: process.env.JWT_EXPIRES_IN || '15m',
   });
 };
@@ -23,7 +24,8 @@ const generateAccessToken = (userId, role) => {
  * Generate JWT refresh token
  */
 const generateRefreshToken = (userId) => {
-  return jwt.sign({ userId }, process.env.JWT_REFRESH_SECRET, {
+  const refreshSecret = process.env.JWT_REFRESH_SECRET || 'super_secret_refresh_jwt_key_at_least_32_characters_long_default';
+  return jwt.sign({ userId }, refreshSecret, {
     expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d',
   });
 };

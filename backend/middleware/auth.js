@@ -19,7 +19,8 @@ const authenticate = async (req, res, next) => {
 
     const token = authHeader.split(' ')[1];
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const secret = process.env.JWT_SECRET || 'super_secret_jwt_key_at_least_32_characters_long_default';
+    const decoded = jwt.verify(token, secret);
 
     const { rows } = await pool.query(
       'SELECT id, name, email, phone, role, loyalty_points, avatar_url, created_at FROM users WHERE id = $1',
@@ -66,7 +67,8 @@ const optionalAuth = async (req, res, next) => {
     }
 
     const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const secret = process.env.JWT_SECRET || 'super_secret_jwt_key_at_least_32_characters_long_default';
+    const decoded = jwt.verify(token, secret);
 
     const { rows } = await pool.query(
       'SELECT id, name, email, phone, role, loyalty_points, avatar_url, created_at FROM users WHERE id = $1',
