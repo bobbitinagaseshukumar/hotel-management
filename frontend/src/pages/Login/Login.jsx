@@ -23,14 +23,10 @@ export default function Login() {
     e.preventDefault();
     if (!email || !password) return toast.error('Please enter all credentials');
     setLoading(true);
-    try {
-      await login(email, password);
-      toast.success('Welcome back to The Grand Palatial');
+    const res = await login({ email, password });
+    setLoading(false);
+    if (res?.success) {
       navigate('/');
-    } catch (err) {
-      toast.error(err.response?.data?.message || 'Login failed. Please verify credentials.');
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -38,28 +34,20 @@ export default function Login() {
     e.preventDefault();
     if (!name || !email || !phone || !password) return toast.error('Please fill in all details');
     setLoading(true);
-    try {
-      await register({ name, email, phone, password });
-      toast.success('Registration successful. You can now login.');
+    const res = await register({ name, email, phone, password });
+    setLoading(false);
+    if (res?.success) {
       setIsLoginTab(true);
-    } catch (err) {
-      toast.error(err.response?.data?.message || 'Registration failed');
-    } finally {
-      setLoading(false);
     }
   };
 
   const handleSendOTP = async () => {
     if (!email) return toast.error('Please enter your email first');
     setLoading(true);
-    try {
-      await sendOTP(email);
+    const res = await sendOTP(email);
+    setLoading(false);
+    if (res?.success) {
       setOtpSent(true);
-      toast.success('OTP sent to your email. Please check inbox.');
-    } catch (err) {
-      toast.error(err.response?.data?.message || 'Failed to send OTP');
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -67,14 +55,10 @@ export default function Login() {
     e.preventDefault();
     if (!otp) return toast.error('Please enter the OTP received');
     setLoading(true);
-    try {
-      await verifyOTP(email, otp);
-      toast.success('Verification successful');
+    const res = await verifyOTP(email, otp);
+    setLoading(false);
+    if (res?.success) {
       navigate('/');
-    } catch (err) {
-      toast.error(err.response?.data?.message || 'Incorrect OTP');
-    } finally {
-      setLoading(false);
     }
   };
 
