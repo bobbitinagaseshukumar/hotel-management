@@ -63,9 +63,16 @@ export const CartProvider = ({ children }) => {
 
   // ─── Add Item ──────────────────────────────────────────────────
   const addItem = useCallback((item) => {
+    const itemId = item.id || item._id;
+    const itemName = item.name;
+    const itemPrice = item.offer_price || item.price;
+    const itemImage = item.image_url || item.image;
+    const itemVeg = item.is_veg !== undefined ? item.is_veg : item.isVeg;
+    const itemCategory = item.category_name || item.category;
+
     setCart((prev) => {
       const existingIndex = prev.items.findIndex(
-        (i) => i._id === item._id && JSON.stringify(i.customizations || {}) === JSON.stringify(item.customizations || {})
+        (i) => (i.id === itemId || i._id === itemId) && JSON.stringify(i.customizations || {}) === JSON.stringify(item.customizations || {})
       )
 
       let updatedItems
@@ -79,14 +86,18 @@ export const CartProvider = ({ children }) => {
         updatedItems = [
           ...prev.items,
           {
-            _id: item._id,
-            name: item.name,
-            price: item.price,
-            image: item.image,
-            category: item.category,
+            id: itemId,
+            _id: itemId,
+            name: itemName,
+            price: itemPrice,
+            image: itemImage,
+            image_url: itemImage,
+            category: itemCategory,
+            category_name: itemCategory,
             quantity: item.quantity || 1,
             customizations: item.customizations || {},
-            isVeg: item.isVeg,
+            isVeg: itemVeg,
+            is_veg: itemVeg,
           },
         ]
       }
@@ -101,7 +112,7 @@ export const CartProvider = ({ children }) => {
   const removeItem = useCallback((itemId, customizations = {}) => {
     setCart((prev) => {
       const updatedItems = prev.items.filter(
-        (i) => !(i._id === itemId && JSON.stringify(i.customizations || {}) === JSON.stringify(customizations))
+        (i) => !((i.id === itemId || i._id === itemId) && JSON.stringify(i.customizations || {}) === JSON.stringify(customizations))
       )
       return { ...prev, items: updatedItems, coupon: null, couponDiscount: 0 }
     })
@@ -115,7 +126,7 @@ export const CartProvider = ({ children }) => {
 
     setCart((prev) => {
       const updatedItems = prev.items.map((i) => {
-        if (i._id === itemId && JSON.stringify(i.customizations || {}) === JSON.stringify(customizations)) {
+        if ((i.id === itemId || i._id === itemId) && JSON.stringify(i.customizations || {}) === JSON.stringify(customizations)) {
           return { ...i, quantity }
         }
         return i
@@ -128,7 +139,7 @@ export const CartProvider = ({ children }) => {
   const incrementQuantity = useCallback((itemId, customizations = {}) => {
     setCart((prev) => {
       const updatedItems = prev.items.map((i) => {
-        if (i._id === itemId && JSON.stringify(i.customizations || {}) === JSON.stringify(customizations)) {
+        if ((i.id === itemId || i._id === itemId) && JSON.stringify(i.customizations || {}) === JSON.stringify(customizations)) {
           return { ...i, quantity: i.quantity + 1 }
         }
         return i
@@ -140,21 +151,20 @@ export const CartProvider = ({ children }) => {
   const decrementQuantity = useCallback((itemId, customizations = {}) => {
     setCart((prev) => {
       const item = prev.items.find(
-        (i) => i._id === itemId && JSON.stringify(i.customizations || {}) === JSON.stringify(customizations)
+        (i) => (i.id === itemId || i._id === itemId) && JSON.stringify(i.customizations || {}) === JSON.stringify(customizations)
       )
 
       if (!item) return prev
 
       if (item.quantity <= 1) {
-        // Remove item when quantity reaches zero
         const updatedItems = prev.items.filter(
-          (i) => !(i._id === itemId && JSON.stringify(i.customizations || {}) === JSON.stringify(customizations))
+          (i) => !((i.id === itemId || i._id === itemId) && JSON.stringify(i.customizations || {}) === JSON.stringify(customizations))
         )
         return { ...prev, items: updatedItems, coupon: null, couponDiscount: 0 }
       }
 
       const updatedItems = prev.items.map((i) => {
-        if (i._id === itemId && JSON.stringify(i.customizations || {}) === JSON.stringify(customizations)) {
+        if ((i.id === itemId || i._id === itemId) && JSON.stringify(i.customizations || {}) === JSON.stringify(customizations)) {
           return { ...i, quantity: i.quantity - 1 }
         }
         return i
@@ -279,6 +289,7 @@ export const CartProvider = ({ children }) => {
   const value = {
     // State
     items: cart.items,
+    cartItems: cart.items,
     orderType: cart.orderType,
     tableNumber: cart.tableNumber,
     deliveryAddress: cart.deliveryAddress,
@@ -287,10 +298,13 @@ export const CartProvider = ({ children }) => {
 
     // Computed
     ...cartSummary,
+    cartTotal: cartSummary.total,
 
     // Actions
     addItem,
+    addToCart: addItem,
     removeItem,
+    removeFromCart: removeItem,
     updateQuantity,
     incrementQuantity,
     decrementQuantity,
