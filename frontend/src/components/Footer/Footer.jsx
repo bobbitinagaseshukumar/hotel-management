@@ -24,6 +24,7 @@ const footerLinks = {
     { name: 'Careers', path: '/careers' },
     { name: 'Privacy Policy', path: '/privacy' },
     { name: 'Terms & Conditions', path: '/terms' },
+    { name: 'Admin Portal', path: '/admin' },
   ],
 };
 
