@@ -1,5 +1,6 @@
 import pg from 'pg';
 import dotenv from 'dotenv';
+import bcrypt from 'bcryptjs';
 
 dotenv.config();
 
@@ -182,6 +183,20 @@ const migrate = async () => {
         created_at TIMESTAMP DEFAULT NOW()
       );
     `);
+
+    // Seed default super admin user if not exists
+    const adminEmail = 'nagaseshukumarbobbiti@gmail.com';
+    const adminExists = await client.query('SELECT id FROM users WHERE email = $1', [adminEmail]);
+    
+    if (adminExists.rows.length === 0) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash('seshu@2409', salt);
+      await client.query(
+        'INSERT INTO users (name, email, phone, password_hash, role) VALUES ($1, $2, $3, $4, $5)',
+        ['Super Admin', adminEmail, '9876543210', hashedPassword, 'super_admin']
+      );
+      console.log('👥 Seeded default super admin user');
+    }
 
     await client.query('COMMIT');
     console.log('✅ Database migration completed successfully');
